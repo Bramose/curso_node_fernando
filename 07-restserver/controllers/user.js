@@ -1,4 +1,4 @@
-const { response } = require('express')
+const { response, request } = require('express')
 const Users = require('../models/users')
 const bcrypt = require('../helpers/password-bcrypt')
 
@@ -51,11 +51,9 @@ const userDelete = async(req, res = response) => {
     const { id } = req.params
     // Eliminar el documento fisicamente
     // const user = await Users.findByIdAndDelete(id)
-    const user = await Users.findByIdAndUpdate(id, {status: false})
-    res.json({
-        id,
-        user
-    })   
+    const user = await Users.findByIdAndUpdate(id, { status: false })
+    const userAuthenticated = req.user
+    res.json({user, userAuthenticated})   
 }
 
 const userPatch = (req, res = response) => {
